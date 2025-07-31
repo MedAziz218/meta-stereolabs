@@ -50,6 +50,10 @@ DEPENDS += "\
     v4l-utils \
 "
 
+RDEPENDS:${PN} += "\
+    hidapi \
+"
+
 do_unpack() {
     [ -d ${S} ] || mkdir -p ${S}
     cd ${S}
@@ -61,9 +65,8 @@ do_patch(){
     # edit the installation path
     sed -i "/^set(ZED_PATH /c\set(ZED_PATH \"${zedsdk_dir}\")" ${S}/zed-config.cmake
     # set LIB_PATH_64 to /usr/lib/
-    sed -i 's|set *(LIB_PATH_64 *"/usr/lib/[^"]*")|set (LIB_PATH_64 "${libdir}")|' ${S}/zed-config.cmake
+    sed -i 's|set *(LIB_PATH_64 *"/usr/lib/[^"]*")|set (LIB_PATH_64 "${libdir}/")|' ${S}/zed-config.cmake
 }
-
 
 do_install () {
         # install libs
@@ -86,5 +89,30 @@ do_install () {
         install -d ${D}${sysconfdir}/udev/rules.d
         install -m 0644 ${S}/99-slabs.rules ${D}${sysconfdir}/udev/rules.d/    
 }
+
+# TODO: probably changing these to be seperate packages makes more sense
+PACKAGECONFIG ??= "samples resources firmware drivers doc"
+PACKAGECONFIG[samples] = ",,,"
+PACKAGECONFIG[tools] = ",,,"
+PACKAGECONFIG[resources] = ",,,"
+PACKAGECONFIG[firmware] = ",,,"
+PACKAGECONFIG[drivers] = ",,,"
+PACKAGECONFIG[doc] = ",,,"
+
+ZED_SDK_EXTRAS = "samples tools resources firmware drivers doc"
+
+do_install:append() {
+    for extra in ${ZED_SDK_EXTRAS}; do
+        if [[ "${PACKAGECONFIG}" == *"${extra}"* ]]; then
+            cp -r "${S}/${extra}" "${D}${zedsdk_dir}/"
+            chmod 770 -R "${D}${zedsdk_dir}/${extra}" 
+            chgrp -R zed "${D}${zedsdk_dir}/${extra}" 
+        fi
+    done
+}
+
+
+
+
 
 FILES:${PN} += "${zedsdk_dir}"
