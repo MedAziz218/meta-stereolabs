@@ -6,8 +6,10 @@ COMPATIBLE_MACHINE = "(tegra)"
 
 DOWNLOAD_FILENAME = "ZED_SDK_Linux.run"
 
+# TODO: retrieve these from PV
 ZED_SDK_MAJOR = "5"
 ZED_SDK_MINOR = "0"
+# TODO: inherit l4t versions from meta-tegra layer
 L4T_MAJOR_VERSION = "36"
 L4T_MINOR_VERSION = "4"
 
@@ -29,6 +31,11 @@ INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
 zedsdk_dir = "/usr/local/zed"
 
+inherit cuda useradd
+
+USERADD_PACKAGES = "${PN}"
+GROUPADD_PARAM:${PN} = "-f -r zed"
+
 DEPENDS += "\
     libjpeg-turbo \
     libusb1 \
@@ -42,7 +49,6 @@ DEPENDS += "\
     tensorrt-plugins-prebuilt \
     v4l-utils \
 "
-inherit cuda
 
 do_unpack() {
     [ -d ${S} ] || mkdir -p ${S}
@@ -74,6 +80,7 @@ do_install () {
         install ${S}/zed-config-version.cmake ${D}${zedsdk_dir}/zed-config-version.cmake
 
         chmod 770 -R "${D}${zedsdk_dir}" 
+        chgrp -R zed "${D}${zedsdk_dir}" 
         
         #install udev rules
         install -d ${D}${sysconfdir}/udev/rules.d
