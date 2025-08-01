@@ -111,8 +111,4 @@ do_install:append() {
     done
 }
 
-
-
-
-
 FILES:${PN} += "${zedsdk_dir}"
