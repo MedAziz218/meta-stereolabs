@@ -29,7 +29,7 @@ INHIBIT_PACKAGE_STRIP = "1"
 INHIBIT_SYSROOT_STRIP = "1"
 INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
 
-zedsdk_dir = "/usr/local/zed"
+zedsdk_dir = "${prefix}/local/zed"
 
 inherit cuda useradd
 
@@ -112,3 +112,8 @@ do_install:append() {
 }
 
 FILES:${PN} += "${zedsdk_dir}"
+
+# found in cuda-shared-binaries.inc from meta-tegra
+sysroot_stage_dirs:append() {
+    sysroot_stage_dir $from${zedsdk_dir} $to${zedsdk_dir}
+}
