@@ -63,9 +63,9 @@ do_unpack() {
 
 do_patch(){
     # edit the installation path
-    sed -i "/^set(ZED_PATH /c\set(ZED_PATH \"${zedsdk_dir}\")" ${S}/zed-config.cmake
+    sed -i '/^set(ZED_PATH /c\set(ZED_PATH "\$\{CMAKE_SYSROOT}${zedsdk_dir}")' ${S}/zed-config.cmake
     # set LIB_PATH_64 to /usr/lib/
-    sed -i 's|set *(LIB_PATH_64 *"/usr/lib/[^"]*")|set (LIB_PATH_64 "${libdir}/")|' ${S}/zed-config.cmake
+    sed -i 's|set *(LIB_PATH_64 *"/usr/lib/[^"]*")|set (LIB_PATH_64 "\$\{CMAKE_SYSROOT}${libdir}/")|' ${S}/zed-config.cmake
 }
 
 do_install () {
