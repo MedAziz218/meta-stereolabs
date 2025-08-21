@@ -59,3 +59,6 @@ RDEPENDS:${PN} += "ros-base"
 #     -DSTAGING_BINDIR_NATIVE=${STAGING_BINDIR_NATIVE} \
 # "
 
+
+# TODO: fix this package overwrites the files of zed-wrapper
+# inspect both packages and split them correctly  
