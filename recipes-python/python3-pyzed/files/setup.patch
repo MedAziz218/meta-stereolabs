@@ -1,0 +1,31 @@
+diff --git a/src/setup.py b/src/setup.py
+index 27dbb80..2e70488 100644
+--- a/src/setup.py
++++ b/src/setup.py
+@@ -74,7 +74,7 @@ cflags = ""
+ ZED_SDK_MAJOR = "5"
+ ZED_SDK_MINOR = "0"
+ 
+-cuda_path = "/usr/local/cuda"
++
+ 
+ def check_zed_sdk_version_private(file_path):
+ 
+@@ -156,7 +156,8 @@ if sys.platform == "win32":
+ 
+         libs = ["sl_zed64"]
+ elif "linux" in sys.platform:
+-    zed_path = "/usr/local/zed"
++    zed_path = os.getenv("ZED_SDK_ROOT_DIR")
++    cuda_path = os.getenv("CUDA_PATH")
+     if not os.path.isdir(zed_path):
+         print(f"Error: ZED SDK not found at {zed_path}. You must install the ZED SDK.")
+         sys.exit(1)
+@@ -249,7 +250,6 @@ print("Install requires:", install_requires)
+ setup_requires = [
+     'setuptools>=42', # Good to have a recent setuptools for pyproject.toml compatibility (even if not used here)
+     'cython>=3.0.0',
+-    'oldest-supported-numpy' # Ensures compilation against an ABI-stable NumPy
+ ]
+ 
+ # For Python versions that will use numpy < 2.0 at runtime,
