@@ -1,41 +1,29 @@
-This README file contains information on the contents of the meta-stereolabs layer.
+# meta-stereolabs
 
-Please see the corresponding sections below for details.
+⚠️ **Work in Progress**
 
-Dependencies
-============
+---
 
-  URI: <first dependency>
-  branch: <branch name>
+This is a Yocto layer that provides recipes for using [**Stereolabs ZED cameras**](https://www.stereolabs.com/developers) on **NVIDIA Jetson boards**.  
+It depends on the `meta-tegra` layer and includes support for:  
 
-  URI: <second dependency>
-  branch: <branch name>
+- [ZED SDK](https://www.stereolabs.com/developers/)  
+- [pyzed](https://github.com/stereolabs/zed-python-api)
+- [ZED ROS 2 wrapper](https://github.com/stereolabs/zed-ros2-wrapper) (depends on `meta-ros` layer)
 
-  .
-  .
-  .
+---
 
-Patches
-=======
+## How to use
 
-Please submit any patches against the meta-stereolabs layer to the xxxx mailing list (xxxx@zzzz.org)
-and cc: the maintainer:
+1. Clone this layer into your Yocto project:  
+   ```bash
+   git clone https://github.com/MedAziz218/meta-stereolabs.git
+    ```
 
-Maintainer: XXX YYYYYY <xxx.yyyyyy@zzzzz.com>
+2. Add it to your `bblayers.conf`.
+3. Build your image with the required packages, for example:
 
-Table of Contents
-=================
+   ```bitbake
+   IMAGE_INSTALL:append = " zed-sdk python3-pyzed zed-wrapper "
+   ```
 
-  I. Adding the meta-stereolabs layer to your build
- II. Misc
-
-
-I. Adding the meta-stereolabs layer to your build
-=================================================
-
-Run 'bitbake-layers add-layer meta-stereolabs'
-
-II. Misc
-========
-
---- replace with specific information about the meta-stereolabs layer ---
