@@ -1,0 +1,20 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f80ba2b..25182f0 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -15,6 +15,15 @@ find_package(std_msgs REQUIRED)
+ 
+ find_package(Draco REQUIRED)
+ 
++if(NOT Draco_FOUND)
++  message(FATAL_ERROR "Draco not found! Make sure libdraco.so and headers are installed.")
++else()
++  set(DRACO_LIBRARY draco)
++  message(STATUS ">>> Draco found ${Draco_FOUND}")
++  message(STATUS ">>> DRACO_LIBRARY: ${DRACO_LIBRARY}")
++  message(STATUS ">>> DRACO_INCLUDE_DIR: ${DRACO_INCLUDE_DIR}")
++endif()
++
+ set(dependencies
+   pluginlib
+   point_cloud_interfaces
