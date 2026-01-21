@@ -1,18 +1,4 @@
-
-LICENSE = "Apache-2.0"
-LIC_FILES_CHKSUM = "file://LICENSE;md5=c6c5b60071652a02bcffc48cda20a27c"
-
-SRC_URI = "git://github.com/stereolabs/zed-ros2-wrapper.git;branch=master;protocol=http"
-SRCREV = "b5844a81b0baa4e6b847a16030bcf4075f2b3d1d"
-
-S = "${WORKDIR}/git"
-OECMAKE_SOURCEPATH = "${S}/${ROS_BPN}"
-
-
-#--------{ros_setup}---------------------------------------------
-
-inherit ros_distro_humble
-inherit ros_component
+require zed-ros2-wrapper.inc
 
 ROS_CN = "zed_wrapper"
 ROS_BPN = "zed_wrapper"
@@ -48,10 +34,6 @@ DEPENDS = "${ROS_BUILD_DEPENDS} ${ROS_BUILDTOOL_DEPENDS}"
 DEPENDS += "${ROS_EXPORT_DEPENDS} ${ROS_BUILDTOOL_EXPORT_DEPENDS}"
 
 RDEPENDS:${PN} += "${ROS_EXEC_DEPENDS}"
-
-ROS_BUILD_TYPE = "ament_cmake"
-
-inherit ros_${ROS_BUILD_TYPE}
 
 #-------------{special_configs}---------------------------------------------
 RDEPENDS:${PN} += "ros-base"
