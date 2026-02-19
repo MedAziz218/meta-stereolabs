@@ -9,7 +9,7 @@ SRCREV = "b5844a81b0baa4e6b847a16030bcf4075f2b3d1d"
 S = "${WORKDIR}/git"
 OECMAKE_SOURCEPATH = "${S}/${ROS_BPN}"
 
-inherit ros_distro_humble
+inherit ros_distro_${ROS_DISTRO}
 inherit ros_component
 
 ROS_BUILD_TYPE = "ament_cmake"
